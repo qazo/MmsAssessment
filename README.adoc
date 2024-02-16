@@ -1,0 +1,11 @@
+= Assessment Tests Answers
+Answers to the MMS Technical Assessment
+
+This repository hosts a solution with two main projects. One for the Todo API
+`MmsTodo.WebApi` and `MmsTodo.Core` (core lib) and web frontend. The frontend is
+half-done due to time constraints. The other project is for answering the answer
+to question 4.2 (majority element) wich can be run through the `MmsAlgo.Console`
+application.
+
+There are also tests writtent for both answers. Thse can be found under the
+`tests/` directory.
