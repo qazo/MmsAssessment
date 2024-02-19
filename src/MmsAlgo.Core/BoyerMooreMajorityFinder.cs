@@ -9,12 +9,6 @@ public class BoyerMooreMajorityFinder : IMajorityElementFinder
         var majority = sample[0];
         for (int i = 1; i < sample.Length; i++)
         {
-            if (counter == 0)
-            {
-                majority = sample[i];
-                counter = 1;
-            }
-            
             if (sample[i] == majority)
             {
                 counter += 1;
@@ -23,9 +17,23 @@ public class BoyerMooreMajorityFinder : IMajorityElementFinder
             {
                 counter -= 1;
             }
+            if (counter == 0)
+            {
+                majority = sample[i];
+                counter = 1;
+            }
         }
 
-        if (majority <= threshold)
+        counter = 0;
+        for (int i = 0; i < sample.Length; i++)
+        {
+            if (majority == sample[i])
+            {
+                counter += 1;
+            }
+        }
+
+        if (counter <= threshold)
         {
             return "No majority element";
         }
