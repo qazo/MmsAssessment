@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { PropType, inject, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { PropType, inject, onMounted, onUnmounted, ref, watch } from 'vue'
 import { UpdateTaskDto, TaskDto } from '../models';
 import { AxiosInstance } from 'axios';
 import { Modal } from 'bootstrap';

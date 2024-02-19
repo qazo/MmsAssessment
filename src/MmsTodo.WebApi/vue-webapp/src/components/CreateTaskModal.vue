@@ -29,7 +29,6 @@ const model = reactive<CreateTaskDto>({
 function handleSubmit(event: Event) {
 	event.preventDefault();
 
-	console.log({ model });
 	apiClient.post('Tasks', model)
 		.then((resp) => {
 			const result = resp.data;
@@ -37,17 +36,19 @@ function handleSubmit(event: Event) {
 				alert(result.message);
 				return;
 			}
+			model.title = '';
+			model.description = '';
 			emit("taskCreated", result.value);
 			hideModal();
 		});
 }
 
 function hideModal() {
-	formRef.value?.reset();
 	modal.value?.hide();
 }
 
 function fireHideEvent() {
+	formRef.value?.reset();
 	emit("modalHidden");
 }
 
@@ -76,7 +77,7 @@ watch(() => props.isVisible, (newValue, oldValue) => {
 </script>
 
 <template>
-	<div ref="modalRef" id="createTaskModal" class="modal" tabindex="-1">
+	<div ref="modalRef" id="createTaskModal" class="modal fade" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
