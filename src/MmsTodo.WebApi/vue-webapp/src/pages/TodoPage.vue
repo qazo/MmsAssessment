@@ -47,10 +47,6 @@ onMounted(async () => {
 		</div>
 	</div>
 
-	<dialog open>
-		<h6>This is it</h6>
-	</dialog>
-
 	<CreateTaskModal :is-visible="newTaskModalVisible" @task-created="onTaskCreated"
 		@modal-hidden="() => newTaskModalVisible = false" />
 </template>
