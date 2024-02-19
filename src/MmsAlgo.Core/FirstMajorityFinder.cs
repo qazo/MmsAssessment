@@ -1,8 +1,8 @@
 ﻿namespace MmsAlgo.Core;
 
-public class MajorityElementFinder
+public class FirstMajorityFinder : IMajorityElementFinder
 {
-    public string FindElement(int[] sample, bool greedyFind = false)
+    public string FindElement(int[] sample)
     {
         var thresholdCount = sample.Length / 2M;
         var maxCount = 0;
@@ -19,14 +19,14 @@ public class MajorityElementFinder
                 }
             }
 
-            if (currCount > maxCount || (greedyFind && currCount >= maxCount))
+            if (currCount > maxCount)
             {
                 maxCount = currCount;
                 result = currVal;
             }
         }
 
-        if (maxCount < thresholdCount)
+        if (maxCount <= thresholdCount)
         {
             return "No majority element";
         }

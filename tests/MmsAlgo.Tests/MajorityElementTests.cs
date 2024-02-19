@@ -26,20 +26,4 @@ public class MajorityElementTests
         var result = _finder.FindElement(sample);
         Assert.Equal("No majority element", result);
     }
-
-    [Fact]
-    public void Will_Pick_First_Majority()
-    {
-        var sample = new int[] {2, 2, 4, 4};
-        var result = _finder.FindElement(sample);
-        Assert.Equal("2", result);
-    }
-
-    [Fact]
-    public void Will_Pick_Last_Majority()
-    {
-        var sample = new int[] {2, 2, 4, 4};
-        var result = _finder.FindElement(sample, greedyFind:true);
-        Assert.Equal("4", result);
-    }
 }
