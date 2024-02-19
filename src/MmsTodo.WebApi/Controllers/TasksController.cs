@@ -6,7 +6,7 @@ using MmsTodo.Core.Services;
 namespace MmsTodo.WebApi.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class TasksController : ControllerBase
 {
     private readonly TaskService _taskService;
