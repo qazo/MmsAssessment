@@ -19,6 +19,9 @@ dependencies:
     version: 3.4.19(typescript@5.3.3)
 
 devDependencies:
+  '@types/bootstrap':
+    specifier: ^5.2.10
+    version: 5.2.10
   '@vitejs/plugin-vue':
     specifier: ^5.0.3
     version: 5.0.4(vite@5.1.3)(vue@3.4.19)
@@ -269,7 +272,6 @@ packages:
 
   /@popperjs/core@2.11.8:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
-    dev: false
 
   /@rollup/rollup-android-arm-eabi@4.11.0:
     resolution: {integrity: sha512-BV+u2QSfK3i1o6FucqJh5IK9cjAU6icjFFhvknzFgu472jzl0bBojfDAkJLBEsHFMo+YZg6rthBvBBt8z12IBQ==}
@@ -374,6 +376,12 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@types/bootstrap@5.2.10:
+    resolution: {integrity: sha512-F2X+cd6551tep0MvVZ6nM8v7XgGN/twpdNDjqS1TUM7YFNEtQYWk+dKAnH+T1gr6QgCoGMPl487xw/9hXooa2g==}
+    dependencies:
+      '@popperjs/core': 2.11.8
+    dev: true
 
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
