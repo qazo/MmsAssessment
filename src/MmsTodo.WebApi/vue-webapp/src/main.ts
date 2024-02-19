@@ -10,5 +10,5 @@ const axiosClient = axios.create({
 });
 
 const app = createApp(App)
-app.provide('axios-client', axiosClient);
+app.provide('http-client', axiosClient);
 app.mount('#app')
