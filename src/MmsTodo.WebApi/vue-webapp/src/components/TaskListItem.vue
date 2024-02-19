@@ -2,9 +2,9 @@
 import { TaskDto } from '../models'
 import { reactive } from 'vue';
 
-const emits = defineEmits({
+const emit = defineEmits({
 	taskDeleted(task: TaskDto) { },
-	taskUpdated(task: TaskDto) { }
+	taskEditRequested(task: TaskDto) { }
 });
 
 const props = defineProps({
@@ -21,6 +21,8 @@ function handleTaskDeletion(event: Event) {
 
 function handleTaskEdit(event: Event) {
 	event.preventDefault();
+	const task = props.task as TaskDto;
+	emit("taskEditRequested", task);
 }
 
 </script>

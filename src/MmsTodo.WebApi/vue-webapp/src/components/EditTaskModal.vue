@@ -1,27 +1,34 @@
 <script setup lang="ts">
-import { inject, reactive, ref } from 'vue'
+import { PropType, inject, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import { UpdateTaskDto, TaskDto } from '../models';
 import { AxiosInstance } from 'axios';
+import { Modal } from 'bootstrap';
 
 const emit = defineEmits({
-	taskUpdated(payload: TaskDto) { }
+	taskUpdated(payload: TaskDto) { },
+	modalHidden() { },
 });
-const isVisible = ref(false);
-const formRef = ref<HTMLFormElement>();
-
 const props = defineProps({
 	task: {
-		type: Object,
+		type: Object as PropType<TaskDto>,
 		required: true,
-	}
-})
+	},
+	isVisible: {
+		type: Boolean,
+		required: true,
+	},
+});
 
-const model = reactive<UpdateTaskDto>(props.task as any);
-const apiClient = inject('axios-client') as AxiosInstance;
+const apiClient = inject('http-client') as AxiosInstance;
+const formRef = ref<HTMLFormElement>();
+const modalRef = ref<HTMLDivElement>();
+const modal = ref<Modal>();
+
 
 function handleSubmit(event: Event) {
 	event.preventDefault();
-	apiClient.put('Tasks', model)
+	const requestBody = props.task as UpdateTaskDto;
+	apiClient.put('Tasks', requestBody)
 		.then(resp => {
 			if (!resp.data.isSuccessful) {
 				alert(resp.data.message);
@@ -34,28 +41,54 @@ function handleSubmit(event: Event) {
 }
 
 function hideModal() {
-	isVisible.value = false;
 	formRef.value?.reset();
+	modal.value?.hide();
 }
+function fireHideEvent() {
+	emit("modalHidden");
+}
+
+onMounted(() => {
+	modal.value = new Modal(modalRef.value as Element);
+	if (props.isVisible) {
+		modal.value.show();
+	}
+	modalRef.value?.addEventListener('hide.bs.modal', fireHideEvent);
+});
+
+onUnmounted(() => {
+	modalRef.value?.removeEventListener('hide.bs.modal', fireHideEvent);
+})
+
+watch(() => props.isVisible, (newValue, oldValue) => {
+	if (newValue === oldValue) {
+		return;
+	}
+	if (newValue) {
+		modal.value?.show();
+	} else {
+		modal.value?.hide();
+	}
+});
 
 </script>
 
 <template>
-	<div class="modal" tabindex="-1">
+	<div ref="modalRef" class="modal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h6 class="modal-title">Edit Task</h6>
 				</div>
 				<div class="modal-body">
-					<form ref="formRef">
+					<form ref="formRef" v-if="props.isVisible">
 						<div class="mb-3">
 							<label for="title" class="col-form-label">Title</label>
-							<input required v-model="model.title" type="text" id="title" class="form-control">
+							<input required v-model="props.task.title" type="text" id="title" class="form-control">
 						</div>
 						<div class="mb-3">
 							<label for="description" class="col-form-label">Description</label>
-							<textarea v-model="model.description" id="description" class="form-control"></textarea>
+							<textarea v-model="props.task.description" id="description" class="form-control"></textarea>
 						</div>
 					</form>
 				</div>

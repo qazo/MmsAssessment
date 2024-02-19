@@ -16,13 +16,16 @@ const props = defineProps({
 	}
 });
 
+const apiClient = inject('http-client') as AxiosInstance;
 const formRef = ref<HTMLFormElement>();
+const modalRef = ref<HTMLDivElement>();
+const modal = ref<Modal>();
+
 const model = reactive<CreateTaskDto>({
 	title: '',
 	description: null
 });
 
-const apiClient = inject('http-client') as AxiosInstance;
 function handleSubmit(event: Event) {
 	event.preventDefault();
 
@@ -35,8 +38,8 @@ function handleSubmit(event: Event) {
 				return;
 			}
 			emit("taskCreated", result.value);
+			hideModal();
 		});
-	hideModal();
 }
 
 function hideModal() {
@@ -47,9 +50,6 @@ function hideModal() {
 function fireHideEvent() {
 	emit("modalHidden");
 }
-
-const modalRef = ref<HTMLDivElement>();
-const modal = ref<Modal>();
 
 onMounted(() => {
 	modal.value = new Modal(modalRef.value as Element);
