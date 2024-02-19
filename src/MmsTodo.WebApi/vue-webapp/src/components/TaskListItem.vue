@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { AxiosInstance } from 'axios';
 import { TaskDto } from '../models'
-import { reactive } from 'vue';
+import { inject, reactive } from 'vue';
 
 const emit = defineEmits({
 	taskDeleted(task: TaskDto) { },
@@ -13,10 +14,21 @@ const props = defineProps({
 		required: true
 	},
 });
-const model = reactive<TaskDto>(props.task as any)
+const apiClient = inject('http-client') as AxiosInstance;
+const model = reactive<TaskDto>(props.task as TaskDto)
 
 function handleTaskDeletion(event: Event) {
 	event.preventDefault();
+	const task = props.task as TaskDto;
+	apiClient.delete(`Tasks/${task.id}`)
+		.then(resp => {
+			const result = resp.data;
+			if (!result.isSuccessful) {
+				alert(result.message);
+				return;
+			}
+			emit("taskDeleted", task);
+		})
 }
 
 function handleTaskEdit(event: Event) {
