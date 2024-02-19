@@ -15,21 +15,29 @@ const props = defineProps({
 });
 const model = reactive<TaskDto>(props.task as any)
 
-function handleDeletion(event: Event) {
+function handleTaskDeletion(event: Event) {
+	event.preventDefault();
+}
+
+function handleTaskEdit(event: Event) {
 	event.preventDefault();
 }
 
 </script>
 
 <template>
-	<div class="row">
-		<div class="col-10">
-			<p>{{ model.title }}</p>
-			<small class="text-body-secondary">{{ model.description ?? '' }}</small>
+	<li class="list-group-item p-0">
+		<div class="row">
+			<div class="col ps-4 p-2">
+				<h6 v-text="model.title"></h6>
+				<small v-text="model.description"></small>
+			</div>
+			<div class="col-auto p-0">
+				<div class="btn-group h-100">
+					<button type="button" @click="handleTaskEdit" class="btn btn-warning rounded-0">E</button>
+					<button type="button" @click="handleTaskDeletion" class="btn btn-danger">D</button>
+				</div>
+			</div>
 		</div>
-		<div class="col-2">
-			<button class="btn btn-secondary" title="Delete" @click="handleDeletion">X</button>
-			<button class="btn btn-danger" title="Delete" @click="handleDeletion">X</button>
-		</div>
-	</div>
+	</li>
 </template>
