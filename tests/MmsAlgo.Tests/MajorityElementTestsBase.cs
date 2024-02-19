@@ -2,17 +2,17 @@ using MmsAlgo.Core;
 
 namespace MmsAlgo.Tests;
 
-public class MajorityElementTests
+public abstract class MajorityElementTestsBase
 {
-    private readonly IMajorityElementFinder _finder;
+    protected readonly IMajorityElementFinder _finder;
 
-    public MajorityElementTests()
+    protected MajorityElementTestsBase(IMajorityElementFinder finder)
     {
-        _finder = new FirstMajorityFinder();
+        _finder = finder;
     }
 
     [Fact]
-    public void Example1_Returns_Four()
+    public virtual void Example1_Returns_Four()
     {
         var sample = new int[] { 3, 3, 4, 2, 4, 4, 2, 4, 4 };
         var result = _finder.FindElement(sample);
@@ -20,7 +20,7 @@ public class MajorityElementTests
     }
 
     [Fact]
-    public void Example2_Returns_404()
+    public virtual void Example2_Returns_404()
     {
         var sample = new int[] { 3, 3, 4, 2, 4, 2, 2 };
         var result = _finder.FindElement(sample);
