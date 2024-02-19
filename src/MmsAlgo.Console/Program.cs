@@ -8,7 +8,7 @@ string Prompt(string str)
     return Console.ReadLine()!;
 }
 
-var finder = new MajorityElementFinder();
+var finder = new FirstMajorityFinder();
 
 var sample = new int[]{3, 3, 4, 2, 4, 4, 2, 4, 4};
 var result = finder.FindElement(sample);

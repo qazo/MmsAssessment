@@ -4,11 +4,11 @@ namespace MmsAlgo.Tests;
 
 public class MajorityElementTests
 {
-    private readonly MajorityElementFinder _finder;
+    private readonly IMajorityElementFinder _finder;
 
     public MajorityElementTests()
     {
-        _finder = new();
+        _finder = new FirstMajorityFinder();
     }
 
     [Fact]
