@@ -34,14 +34,14 @@ onMounted(async () => {
 <template>
 	<div class="container w-100 p-3">
 		<div class="row my-3 justify-content-center">
-			<div class="col col-md-6 text-center">
+			<div class="col col-md-5 text-center">
 				<div class="my-3">
 					<button type="button" @click="showNewTaskModal" class="btn btn-primary w-100">New Task</button>
 				</div>
 			</div>
 		</div>
 		<div class="row my-3 justify-content-center">
-			<div class="col col-md-6">
+			<div class="col col-md-5">
 				<TaskList :task-list="taskList" />
 			</div>
 		</div>
