@@ -47,12 +47,16 @@ function handleTaskComplete() {
 	<li class="list-group-item task-list-item p-0">
 		<div class="row">
 			<div class="col ps-4 p-2">
-				<h6 v-text="model.title"></h6>
+				<h6>
+					{{ model.title }}
+					<span class="badge rounded-pill bg-success bg-opacity-50 ">Complete</span>
+				</h6>
 				<small class="fst-italic text-black-50" v-text="model.description ?? 'No description'"></small>
 			</div>
-			<div class="col-auto p-0">
+			<div class="col-auto">
 				<div class="btn-group h-100">
-					<button type="button" @click="handleTaskComplete" class="btn btn-light rounded-0 border-end-1">
+					<button type="button" @click="handleTaskComplete" class="btn btn-light rounded-0 border-start"
+						title="Complete">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 							class="bi bi-check-circle" viewBox="0 0 16 16">
 							<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -60,7 +64,7 @@ function handleTaskComplete() {
 								d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
 						</svg>
 					</button>
-					<button type="button" @click="handleTaskEdit" class="btn btn-light rounded-0">
+					<button type="button" @click="handleTaskEdit" class="btn btn-light rounded-0 border-start" title="Edit">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 							class="bi bi-pencil-square" viewBox="0 0 16 16">
 							<path
@@ -69,7 +73,8 @@ function handleTaskComplete() {
 								d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
 						</svg>
 					</button>
-					<button type="button" @click="handleTaskDeletion" class="btn btn-light text-danger">
+					<button type="button" @click="handleTaskDeletion" class="btn btn-light border-start text-danger"
+						title="Delete">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 							class="bi bi-trash" viewBox="0 0 16 16">
 							<path
@@ -87,5 +92,9 @@ function handleTaskComplete() {
 <style scoped>
 .task-list-item:hover {
 	background-color: rgb(240, 240, 240)
+}
+
+.task-list-item .btn:not(:hover) {
+	background-color: transparent !important;
 }
 </style>
