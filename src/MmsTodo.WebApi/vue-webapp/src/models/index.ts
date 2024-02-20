@@ -2,7 +2,7 @@ export interface TaskDto {
 	id: number;
 	title: string;
 	description: string | null;
-	isComplete: boolean;
+	isCompleted: boolean;
 	dateCompleted: Date | null;
 };
 

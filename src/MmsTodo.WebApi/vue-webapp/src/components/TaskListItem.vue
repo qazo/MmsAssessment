@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AxiosInstance } from 'axios';
 import { TaskDto } from '../models'
-import { inject, reactive } from 'vue';
+import { PropType, inject, } from 'vue';
 
 const emit = defineEmits({
 	taskDeleted(task: TaskDto) { },
@@ -10,12 +10,19 @@ const emit = defineEmits({
 
 const props = defineProps({
 	task: {
-		type: Object,
+		type: Object as PropType<TaskDto>,
 		required: true
 	},
 });
 const apiClient = inject('http-client') as AxiosInstance;
-const model = reactive<TaskDto>(props.task as TaskDto)
+const model = props.task;
+if (model.isCompleted) {
+	model.dateCompleted = new Date(model.dateCompleted!.toString());
+}
+
+if (model.description === '') {
+	model.description = null;
+}
 
 function handleTaskDeletion(event: Event) {
 	event.preventDefault();
@@ -38,7 +45,17 @@ function handleTaskEdit(event: Event) {
 }
 
 function handleTaskComplete() {
-
+	apiClient.put(`Tasks/Complete/${model.id}`)
+		.then(resp => {
+			const result = resp.data;
+			if (!result.isSuccessful) {
+				alert(result.message);
+				return;
+			}
+			const resultTask = result.value as TaskDto;
+			model.isCompleted = resultTask.isCompleted;
+			model.dateCompleted = new Date(resultTask.dateCompleted!.toString());
+		})
 }
 
 </script>
@@ -49,14 +66,17 @@ function handleTaskComplete() {
 			<div class="col ps-4 p-2">
 				<h6>
 					{{ model.title }}
-					<span class="badge rounded-pill bg-success bg-opacity-50 ">Complete</span>
+					<template v-if="model.isCompleted">
+						<span :title="model.dateCompleted?.toLocaleString()"
+							class="badge rounded-pill bg-success bg-opacity-50 ">Complete</span>
+					</template>
 				</h6>
 				<small class="fst-italic text-black-50" v-text="model.description ?? 'No description'"></small>
 			</div>
 			<div class="col-auto">
 				<div class="btn-group h-100">
-					<button type="button" @click="handleTaskComplete" class="btn btn-light rounded-0 border-start"
-						title="Complete">
+					<button :disabled="model.isCompleted" type="button" @click="handleTaskComplete"
+						class="btn btn-light rounded-0 border-start" title="Complete">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 							class="bi bi-check-circle" viewBox="0 0 16 16">
 							<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -64,7 +84,8 @@ function handleTaskComplete() {
 								d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
 						</svg>
 					</button>
-					<button type="button" @click="handleTaskEdit" class="btn btn-light rounded-0 border-start" title="Edit">
+					<button :disabled="model.isCompleted" type="button" @click="handleTaskEdit"
+						class="btn btn-light rounded-0 border-start" title="Edit">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
 							class="bi bi-pencil-square" viewBox="0 0 16 16">
 							<path
