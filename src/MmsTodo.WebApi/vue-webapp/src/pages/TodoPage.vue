@@ -42,7 +42,18 @@ onMounted(async () => {
 		</div>
 		<div class="row my-3 justify-content-center">
 			<div class="col col-md-5">
-				<TaskList :task-list="taskList" />
+				<template v-if="taskList.length > 0">
+					<TaskList :task-list="taskList" />
+				</template>
+				<template v-else>
+					<div class="card text-bg-light">
+						<div class="card-body text-center">
+							<h5 class="card-title">No Tasks</h5>
+							<h6 class="card-subtitle mb-2 text-body-secondary">Task list is empty.</h6>
+							<p class="card-text">Click on the "New Task" button to add a new task</p>
+						</div>
+					</div>
+				</template>
 			</div>
 		</div>
 	</div>
