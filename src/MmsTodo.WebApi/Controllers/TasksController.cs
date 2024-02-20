@@ -19,7 +19,7 @@ public class TasksController : ControllerBase
     [HttpGet]
     public async Task<List<TaskDto>> Get()
     {
-        var results = await _taskService.GetActiveTasks();
+        var results = await _taskService.GetTasks();
         return results;
     }
 

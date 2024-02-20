@@ -26,12 +26,11 @@ public class TaskService(TodoDb dbContext, ILogger<TaskService> logger, IMapper 
         }
     }
     
-    public async Task<List<TaskDto>> GetActiveTasks(CancellationToken cancellationToken = default)
+    public async Task<List<TaskDto>> GetTasks(CancellationToken cancellationToken = default)
     {
         try
         {
             var dbTasks = await dbContext.Tasks
-                .Where(e => !e.IsCompleted)
                 .ToListAsync(cancellationToken);
 
             var results = mapper.Map<List<TaskDto>>(dbTasks);
