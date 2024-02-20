@@ -76,7 +76,7 @@ function handleTaskComplete() {
 			<div class="col-auto">
 				<div class="btn-group h-100">
 					<button :disabled="model.isCompleted" type="button" @click="handleTaskComplete"
-						class="btn btn-light rounded-0 border-start text-opacity-75"
+						class="btn btn-light rounded-0 border-start"
 						:class="{ 'text-success': !model.isCompleted, 'text-secondary': model.isCompleted }"
 						title="Complete">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
