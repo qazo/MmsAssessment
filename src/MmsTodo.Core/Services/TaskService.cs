@@ -91,32 +91,33 @@ public class TaskService(TodoDb dbContext, ILogger<TaskService> logger, IMapper 
         }
     }
 
-    public async Task<Result> CompleteTask(int taskId, CancellationToken cancellationToken = default)
+    public async Task<Result<TaskDto>> CompleteTask(int taskId, CancellationToken cancellationToken = default)
     {
         try
         {
-            var task = await dbContext.Tasks
+            var dbTask = await dbContext.Tasks
                 .Where(e => e.Id == taskId)
                 .FirstOrDefaultAsync(cancellationToken);
-            if (task == null)
+            if (dbTask == null)
             {
-                return Result.Fail("Could not find task with given ID");
+                return Result<TaskDto>.Fail("Could not find task with given ID");
             }
 
-            if (task.IsCompleted)
+            if (dbTask.IsCompleted)
             {
-                return Result.Fail("Task is already marked as complete.");
+                return Result<TaskDto>.Fail("Task is already marked as complete.");
             }
 
-            task.IsCompleted = true;
-            task.DateCompleted = DateTimeOffset.Now;
+            dbTask.IsCompleted = true;
+            dbTask.DateCompleted = DateTimeOffset.Now;
             await dbContext.SaveChangesAsync(cancellationToken);
-            return Result.Success();
+            var result = mapper.Map<TaskDto>(dbTask);
+            return Result<TaskDto>.Success(result);
         }
         catch (Exception e)
         {
             logger.LogError(e, "Error when completing task.");
-            return Result.Fail(e);
+            return Result<TaskDto>.Fail(e);
         }
     }
 

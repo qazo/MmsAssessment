@@ -52,7 +52,7 @@ public class TasksController : ControllerBase
     }
 
     [HttpPut("[action]/{id}")]
-    public async Task<Result> Complete(int id)
+    public async Task<Result<TaskDto>> Complete(int id)
     {
         var result = await _taskService.CompleteTask(id);
         return result;
