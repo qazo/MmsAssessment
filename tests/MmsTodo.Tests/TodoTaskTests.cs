@@ -112,4 +112,32 @@ public class TodoTaskTests
         Assert.True(taskResult.Value!.IsCompleted);
         Assert.NotNull(taskResult.Value!.DateCompleted);
     }
+
+    [Fact]
+    public async Task Can_Delete_Task()
+    {
+        var createRequest = new CreateTaskDto
+        {
+            Title = "To be deleted",
+            Description = "Deletion test",
+        };
+        var result = await _taskService.CreateTask(createRequest);
+        Assert.True(result.IsSuccessful);
+        var newTask = result.Value!;
+
+        result = await _taskService.FindTaskById(newTask.Id);
+        Assert.True(result.IsSuccessful);
+        var dbTask = result.Value!;
+        
+        Assert.Equal(newTask.Id, dbTask.Id);
+        Assert.Equal(newTask.Title, dbTask.Title);
+        Assert.Equal(newTask.Description, dbTask.Description);
+
+        var deletionResult = await _taskService.DeleteTask(dbTask.Id);
+        Assert.True(deletionResult.IsSuccessful);
+
+        result = await _taskService.FindTaskById(dbTask.Id);
+        Assert.False(result.IsSuccessful);
+        Assert.Null(result.Value);
+    }
 }
