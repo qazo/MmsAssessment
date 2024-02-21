@@ -7,5 +7,25 @@ half-done due to time constraints. The other project is for answering the answer
 to question 4.2 (majority element) wich can be run through the `MmsAlgo.Console`
 application.
 
+* Algorithm solution in is `./src/MmsAlgo.(Core|Console)`
+* Todo API is in `./src/MmsTodo.WebApi`
+* Todo frontend source is in `./src/MmsTodo.WebApi/vue-webapp`
+
 There are also tests writtent for both answers. Thse can be found under the
 `tests/` directory.
+
+== Running
+
+=== MmsAlgo
+
+Can be run throught he console. Didn't add ability to ready from external
+sources like files.
+
+=== MmsTodo
+
+Can run the MmsTodo.WebApi project. I;ve edited the `launchSettings.json` to
+default to the wwwroot instead of swagger, so just running the project should be
+fine.
+
+
+NOTE: both projects require .NET 8
