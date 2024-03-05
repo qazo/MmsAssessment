@@ -12,6 +12,6 @@ public class TaskMappings : Profile
         CreateMap<CreateTaskDto, TodoTask>()
             .ForMember(dst => dst.IsCompleted, opt => opt.MapFrom(src => false))
             .ForMember(dst => dst.DateCompleted, opt => opt.MapFrom(src => (DateTimeOffset?)null))
-            .ForMember(dst => dst.DateCreated, opt => opt.MapFrom(src => DateTimeOffset.Now));
+            .ForMember(dst => dst.DateCreated, opt => opt.MapFrom(src => DateTimeOffset.UtcNow));
     }
 }
